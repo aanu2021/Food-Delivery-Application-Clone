@@ -8,7 +8,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
 
   const inputEvent = (event) => {
@@ -20,7 +20,7 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("api/loginuser", {
+      const response = await fetch(`${BASE_URL}/api/loginuser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

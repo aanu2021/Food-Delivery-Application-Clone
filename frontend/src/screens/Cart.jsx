@@ -5,6 +5,7 @@ import { useCart, useDispatchCart } from "../components/ContextReducer";
 const Cart = () => {
   const data = useCart();
   const dispatch = useDispatchCart();
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   if (data.length === 0) {
     return (
@@ -18,7 +19,7 @@ const Cart = () => {
 
   const handleCheckOut = async() => {
       const userEmail = localStorage.getItem("userEmail");
-      const response = await fetch("api/orderdata", {
+      const response = await fetch(`${BASE_URL}/api/orderdata`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

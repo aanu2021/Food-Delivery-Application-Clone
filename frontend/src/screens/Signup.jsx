@@ -8,6 +8,7 @@ const Signup = () => {
     password: "",
     location: "",
   });
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const [geolocation, setGeoLocation] = useState("");
 
@@ -28,7 +29,7 @@ const Signup = () => {
     // console.log(latlong)
     let [lat, long] = latlong;
     console.log(lat, long);
-    const response = await fetch("api/getlocation", {
+    const response = await fetch(`${BASE_URL}/api/getlocation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +58,7 @@ const Signup = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("api/createuser", {
+      const response = await fetch(`${BASE_URL}/api/createuser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

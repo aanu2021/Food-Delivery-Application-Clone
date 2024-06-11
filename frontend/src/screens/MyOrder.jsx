@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 
 const MyOrder = () => {
   const [orderData, setorderData] = useState({});
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const fetchMyOrder = async () => {
     // console.log(localStorage.getItem("userEmail"));
-    await fetch("api/myorders", {
+    await fetch(`${BASE_URL}/api/myorders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

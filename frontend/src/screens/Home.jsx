@@ -5,9 +5,10 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [foodItems, setFoodItems] = useState([]);
   const [foodCategory, setFoodCategory] = useState([]);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const loadData = async () => {
-    const response = await fetch("api/foodData", {
+    const response = await fetch(`${BASE_URL}/api/foodData`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
