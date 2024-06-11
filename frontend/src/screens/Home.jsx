@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Card from "../components/Card";
 
 const Home = () => {
@@ -7,7 +7,7 @@ const Home = () => {
   const [foodCategory, setFoodCategory] = useState([]);
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     const response = await fetch(`${BASE_URL}/api/foodData`, {
       method: "POST",
       headers: {
@@ -17,11 +17,11 @@ const Home = () => {
     const res = await response.json();
     setFoodItems(res[0]);
     setFoodCategory(res[1]);
-  };
+  }, [BASE_URL]);
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
 
   const inputEvent = (event) => {
     setSearch(event.target.value);
@@ -36,7 +36,7 @@ const Home = () => {
           data-bs-ride="carousel"
         >
           <div className="carousel-inner " id="carousel">
-            <div class=" carousel-caption  " style={{ zIndex: "9" }}>
+            <div className="carousel-caption" style={{ zIndex: "9" }}>
               <div className="d-flex justify-content-center">
                 <input
                   className="form-control me-2 w-75 bg-white text-dark"
@@ -51,7 +51,7 @@ const Home = () => {
             <div className="carousel-item active" data-bs-interval="5000">
               <img
                 src="https://source.unsplash.com/random/900x700/?burger"
-                className="d-block w-100  "
+                className="d-block w-100"
                 style={{ filter: "brightness(50%)" }}
                 alt="..."
               />
@@ -59,7 +59,7 @@ const Home = () => {
             <div className="carousel-item" data-bs-interval="5000">
               <img
                 src="https://source.unsplash.com/random/900x700/?pizza"
-                className="d-block w-100 "
+                className="d-block w-100"
                 style={{ filter: "brightness(50%)" }}
                 alt="..."
               />
@@ -67,7 +67,7 @@ const Home = () => {
             <div className="carousel-item" data-bs-interval="5000">
               <img
                 src="https://source.unsplash.com/random/900x700/?cake"
-                className="d-block w-100 "
+                className="d-block w-100"
                 style={{ filter: "brightness(50%)" }}
                 alt="..."
               />
@@ -104,10 +104,10 @@ const Home = () => {
         <div className="container">
           {foodCategory && foodCategory.length && foodCategory.map((category) => {
             return (
-              <>
+              <React.Fragment key={category._id}>
                 <hr />
                 <div>
-                  <div key={category._id} className="fs-3 m-3">
+                  <div className="fs-3 m-3">
                     {category.CategoryName}
                   </div>
                 </div>
@@ -122,19 +122,16 @@ const Home = () => {
                     })
                     .map((ele) => {
                       return (
-                        <>
-                          <div className="col-12 col-md-6 col-lg-4 mb-5">
-                            <Card
-                              key={ele._id}
-                              foodItem={ele}
-                              options={ele.options[0]}
-                            />
-                          </div>
-                        </>
+                        <div className="col-12 col-md-6 col-lg-4 mb-5" key={ele._id}>
+                          <Card
+                            foodItem={ele}
+                            options={ele.options[0]}
+                          />
+                        </div>
                       );
                     })}
                 </div>
-              </>
+              </React.Fragment>
             );
           })}
         </div>

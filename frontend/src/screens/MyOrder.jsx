@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 const MyOrder = () => {
-  const [orderData, setorderData] = useState({});
+  const [orderData, setOrderData] = useState({});
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  const fetchMyOrder = async () => {
-    // console.log(localStorage.getItem("userEmail"));
+  const fetchMyOrder = useCallback(async () => {
     await fetch(`${BASE_URL}/api/myorders`, {
       method: "POST",
       headers: {
@@ -16,19 +15,19 @@ const MyOrder = () => {
       }),
     }).then(async (res) => {
       let response = await res.json();
-      await setorderData(response);
+      setOrderData(response);
     });
-  };
+  }, [BASE_URL]);
 
   useEffect(() => {
     fetchMyOrder();
-  }, []);
+  }, [fetchMyOrder]);
 
   return (
     <>
       <div className="container">
         <div className="row">
-          {orderData !== {}
+          {Object.keys(orderData).length !== 0
             ? Array(orderData).map((data) => {
                 return data.orderData
                   ? data.orderData.order_data
@@ -37,10 +36,10 @@ const MyOrder = () => {
                       .map((item) => {
                         return item.map((arrayData) => {
                           return (
-                            <div>
+                            <div key={arrayData._id}>
                               {arrayData.Order_date ? (
                                 <div className="m-auto mt-5">
-                                  {(data = arrayData.Order_date)}
+                                  <div>{arrayData.Order_date}</div>
                                   <hr />
                                 </div>
                               ) : (
@@ -49,7 +48,7 @@ const MyOrder = () => {
                                     className="card mt-3"
                                     style={{
                                       width: "18rem",
-                                      height : "16rem",
+                                      height: "16rem",
                                       maxHeight: "450px",
                                     }}
                                   >
@@ -76,8 +75,10 @@ const MyOrder = () => {
                                         <span className="m-1">
                                           {arrayData.size}
                                         </span>
-                                        <div className="m-1">{data}</div>
-                                        <div className=" d-inline ms-2 h-100 w-20 fs-5">
+                                        <div className="m-1">
+                                          {arrayData.Order_date}
+                                        </div>
+                                        <div className="d-inline ms-2 h-100 w-20 fs-5">
                                           ₹{arrayData.price}/-
                                         </div>
                                       </div>
