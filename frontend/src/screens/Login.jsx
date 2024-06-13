@@ -23,7 +23,7 @@ const Login = () => {
       const response = await fetch(`${BASE_URL}/api/loginuser`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", 
         },
         body: JSON.stringify({
           email: credentials.email,
