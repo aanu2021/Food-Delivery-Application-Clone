@@ -62,8 +62,6 @@ router.post(
         const isMatch = await bcrypt.compare(password, getPassword);
 
         if (!isMatch) {
-          console.log("Hashed password : " + getPassword);
-          console.log("Entered password : " + password);
           return res
             .status(400)
             .json({ error_message: "Try logging with valid credentials" });

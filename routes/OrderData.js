@@ -42,6 +42,7 @@ router.post("/orderdata", async (req, res) => {
 
 router.post('/myorders',async(req,res)=>{
     try{
+       console.log(req.body.email);
        const myData = await Order.findOne({email : req.body.email});
        res.json({orderData : myData});
     }catch(error){
@@ -50,4 +51,4 @@ router.post('/myorders',async(req,res)=>{
     }
 })
 
-module.exports = router;
+module.exports = router; 
